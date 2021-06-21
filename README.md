@@ -1,14 +1,12 @@
-# Airpost
-
 ## Inspiration
-In most of the major cities, the population increases rapidly every year, and the demand for package deliveries is following the same pattern. According to the New York Times, nearly 1.5 million packages are delivered daily in New York City. This is causing many traffic issues and negatively affects our lives. We deserve that the ambulance arrives at the patient location on time and saves his life. To solve this problem and improve our life, we can move most of the daily packages deliveries to fly in the air. If we are able to convert at least 1/3 of the current delivery rate to be done via drones, this will have a significant improvement on the traffic and improve our life. In the USA, AWS wavelength and Verizon provide powerful computing power at the edge with a low latency link between the servers and the devices connected to Verizon network. We can benefit from this by deploying applications to AWS wavelength zones that can exchange data between drones and remote web-based flight controllers in almost real-time.
+In most of the major cities, the population increases rapidly every year, and the demand for package deliveries is following the same pattern. According to the New York Times, nearly 1.5 million packages are delivered daily in New York City. This is causing many traffic issues and negatively affects our lives. We deserve that the ambulance arrives at the patient location on time and saves his life. To solve this problem and improve our life, we can move most of the daily packages deliveries to fly in the air. If we are able to convert at least 1/3 of the current delivery rate to be done via drones, this will have a significant improvement on the traffic and improve our life. In the USA, AWS wavelength and Verizon provide powerful computing power at the edge with a low latency link between the servers and the devices connected to the Verizon network. We can benefit from this by deploying applications to AWS wavelength zones that can exchange data between drones and remote web interface flight controllers in almost real-time.
 
 ## What it does
-Airpost is an application that allows remote pilots to plan, control, and track drone flights in almost real-time. The main application is deployed to a G4 instance in the AWS wavelength zone inside the Verizon network. This provides powerful computing power for machine learning algorithms at the edge. Also, it provides a low latency link between the drone, the instance, and the web-based remote flight controller. The remote flight controller can be accessed from a mobile, tablet, or laptop web browser, but the device must be connected to the Verizon network.
+Airpost is an application that allows remote pilots to plan, control, and track drone flights in almost real-time. The main application is deployed to a G4 instance in the AWS wavelength zone inside the Verizon network. This provides powerful computing power for machine learning algorithms at the edge. Also, it provides a low latency link between the drone, the instance, and the web-interface remote flight controller. The remote flight controller can be accessed from a mobile, tablet, or laptop web browser, but the device must be connected to the Verizon network.
 
 **Connect and control the Drone**
 
-First, the remote pilot will use the web-based remote flight controller to log in and connect to his drone. Once the connection is established, the remote pilot can type an address to generate a flight path. Also, the pilot can request flight authorization or check airspace advisories for the flight. Then, the remote pilot can start the flight by arming the drone and take off. Then, the pilot can watch the camera stream and pause the autopilot by manually control the drone in certain cases. Also, there will be a map showing the current location of the drone.
+First, the remote pilot will use the remote flight controller to log in and connect to his drone. Once the connection is established, the remote pilot can type an address to generate a flight path. Also, the pilot can request flight authorization or check airspace advisories for the flight. Then, the remote pilot can start the flight by arming the drone and take off. Then, the pilot can watch the camera stream and pause the autopilot by manually control the drone in certain cases. Also, there will be a map showing the current location of the drone.
  
 **How the connection works**
 
@@ -23,7 +21,7 @@ sudo apt update
 ```
 Install the required packages to run our application and the simulated drone.
 ```
-sudo apt-get install python3-dev python3-opencv python3-wxgtk4.0 python3-pip python3-matplotlib python3-lxml python3-pygame build-essential
+sudo apt-get install Flask python3-dev python3-opencv python3-wxgtk4.0 python3-pip python3-matplotlib python3-lxml python3-pygame build-essential
 
 sudo pip3 install PyYAML mavproxy dronekit dronekit-sitl
 
@@ -89,11 +87,16 @@ sudo openssl req -new -newkey rsa:2048 -nodes -keyout domain.key -out domain.csr
 ```
 After you generate the certificate signing request, use it to generate the SSL certificate then copy the certificate to the /etc/nginx/ssl/ folder.
 
+**Real drone**
+
+To build a real drone using raspberry pi and Pixhawk follow this [tutorial](https://www.instructables.com/Autonomous-Drone-Using-RPi/). After you build the drone, follow this [tutorial](https://www.verizon.com/business/solutions/5g/edge-computing/developer-resources/5g-edge-thingspace-tutorial/) to connect the raspberry pi to the Verizon network using thingSpace. Once you are connected, split the sample code and create a flask server in the raspberry pi to communicate with the G4 instance. The application should work same as the simulated version except you will need to change the connection type in MAVProxy. Follow this [tutorial](https://ardupilot.org/dev/docs/raspberry-pi-via-mavlink.html) for more details.
 
 ## Challenges we ran into
 
-## Accomplishments that we're proud of
+New York City created a general restriction declaring that all drone flights in the city is illegal. I hope this will change and the city will follow the "Drone Laws in the USA defined by FAA Part 107" soon! 
 
-## What we learned
+## Accomplishments that we're proud of
+I hope this project can be the start of something awesome that will help our world. Also, I am so excited to use Python, OpenCV and Flask for the first time.
 
 ## What's next for Airpost
+First, I want to create a better interface and add more commands that will enhance the remote pilot experience. Also, I will add machine learning algorithms to auto control the drone when there is any identified emergency. In addition, I want to connect the drone over 5G connection with fallback to 4G. 
